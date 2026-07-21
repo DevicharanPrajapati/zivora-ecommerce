@@ -1,4 +1,4 @@
-import { supabase } from "../../services/supabseClient";
+import { supabase } from "../../services/supabaseAdmin";
 
 export const addToCart = async (userId, productId) => {
   // Check if product already exists in cart
@@ -61,7 +61,7 @@ export const getCart = async (userId) => {
     .eq("user_id", userId);
 
   if (error) throw error;
-// console.log(data)
+  // console.log(data)
   return data;
 };
 

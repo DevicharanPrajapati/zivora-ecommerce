@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { supabase } from "../../services/supabseClient";
+import { supabase } from "../../services/supabaseAdmin";
 
 export const fetchCategories = createAsyncThunk(
   "category/fetchCategories",

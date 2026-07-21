@@ -2,13 +2,28 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchProducts,
   fetchProductById,
-  fetchProductsByCategory,
+  createProductThunk,
+  updateProductThunk,
+  deleteProductThunk,
+  fetchProductImages,
+  uploadProductImageThunk,
+  deleteProductImageThunk,
+  setPrimaryImageThunk,
 } from "./productThunks";
 
 const initialState = {
   products: [],
-  selectedProduct: null,
-  loading: false,
+  product: null,
+  images: [],
+
+  loading: {
+    fetch: false,
+    create: false,
+    update: false,
+    delete: false,
+    uploadImage: false,
+  },
+
   error: null,
 };
 
@@ -20,56 +35,70 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // Pending
+      // Fetch Products
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-
-      // Fulfilled
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload;
       })
-
-      // Rejected
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
 
-      // Pending
-      .addCase(fetchProductById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.selectedProduct = null;
-      })
-
-      // Fulfilled
+      // Fetch Product
       .addCase(fetchProductById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.selectedProduct = action.payload;
+        state.product = action.payload;
       })
 
-      // Rejected
-      .addCase(fetchProductById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      //product by id
-      .addCase(fetchProductsByCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      // Create
+      .addCase(createProductThunk.fulfilled, (state, action) => {
+        state.products.unshift(action.payload);
       })
 
-      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload;
+      // Update
+      .addCase(updateProductThunk.fulfilled, (state, action) => {
+        const index = state.products.findIndex(
+          (p) => p.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.products[index] = action.payload;
+        }
+
+        state.product = action.payload;
       })
 
-      .addCase(fetchProductsByCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+      // Delete
+      .addCase(deleteProductThunk.fulfilled, (state, action) => {
+        state.products = state.products.filter(
+          (p) => p.id !== action.payload
+        );
+      })
+
+      // Images
+      .addCase(fetchProductImages.fulfilled, (state, action) => {
+        state.images = action.payload;
+      })
+
+      .addCase(uploadProductImageThunk.fulfilled, (state, action) => {
+        state.images.push(action.payload);
+      })
+
+      .addCase(deleteProductImageThunk.fulfilled, (state, action) => {
+        state.images = state.images.filter(
+          (img) => img.id !== action.payload
+        );
+      })
+
+      .addCase(setPrimaryImageThunk.fulfilled, (state, action) => {
+        state.images = state.images.map((img) => ({
+          ...img,
+          is_primary: img.id === action.payload.id,
+        }));
       });
   },
 });
