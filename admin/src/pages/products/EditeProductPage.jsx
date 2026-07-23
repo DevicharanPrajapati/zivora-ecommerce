@@ -6,7 +6,7 @@ import ProductForm from "../../components/product/form/ProductForm";
 import ProductImageUploader from "../../components/product/ProductImageUploader";
 import ProductVariantForm from "../../components/product/ProductVariantForm";
 
-import { fetchCategories } from "../../features/category/categoryThunk";
+import { fetchCategoriesThunk } from "../../features/category/categoryThunks";
 import {
   fetchProductById,
   updateProductThunk,
@@ -29,7 +29,7 @@ const EditProductPage = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategoriesThunk());
     dispatch(fetchProductById(id));
   }, [dispatch, id]);
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import ProductForm from "../../components/product/form/ProductForm";
 
-import { fetchCategories } from "../../features/category/categoryThunk";
+import { fetchCategoriesThunk } from "../../features/category/categoryThunks";
 import { createProductThunk } from "../../features/product/productThunks";
 
 const AddProductPage = () => {
@@ -24,7 +24,7 @@ const AddProductPage = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategoriesThunk());
   }, [dispatch]);
 
   const handleSubmit = async (e) => {
