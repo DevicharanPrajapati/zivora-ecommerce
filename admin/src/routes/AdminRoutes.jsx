@@ -11,6 +11,7 @@ import UsersPage from "../pages/users/UsersPage";
 
 import AdminLayout from "../layout/AdminLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import OrderDetailsPage from "../components/order/OrderDetailsPage";
 
 const AdminRoutes = () => {
   return (
@@ -20,20 +21,25 @@ const AdminRoutes = () => {
 
       {/* Protected */}
       <Route element={<ProtectedRoute />}>
-        <Route element={<AdminLayout />}>
+        <Route path="/" element={<AdminLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
 
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
 
           {/* Products */}
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/add" element={<AddProductPage />} />
-          <Route path="/products/edit/:id" element={<EditProductPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="products/add" element={<AddProductPage />} />
+          <Route path="products/edit/:id" element={<EditProductPage />} />
 
-          {/* Other Modules */}
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/users" element={<UsersPage />} />
+          {/* Categories */}
+          <Route path="categories" element={<CategoriesPage />} />
+
+          {/* Users */}
+          <Route path="users" element={<UsersPage />} />
+
+          {/* Orders */}
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="orders/:id" element={<OrderDetailsPage />} />
         </Route>
       </Route>
 
