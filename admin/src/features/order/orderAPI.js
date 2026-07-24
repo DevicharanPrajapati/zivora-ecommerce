@@ -30,8 +30,10 @@ export const getOrders = async () => {
 `,
     )
     .order("created_at", { ascending: false });
-  console.log("Orders Error:", error);
-  console.log("Orders Data:", data);
+  
+    
+  // console.log("Orders Error:", error);
+  // console.log("Orders Data:", data);
 
   if (error) throw error;
 

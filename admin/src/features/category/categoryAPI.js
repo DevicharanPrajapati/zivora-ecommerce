@@ -20,7 +20,7 @@ export const createCategory = async (categoryData) => {
     .select()
     .single();
 
-    console.log(error);
+    // console.log(error);
   if (error) throw error;
 
   return data;
