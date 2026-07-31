@@ -1,53 +1,50 @@
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-// import { fetchShopProducts } from "../features/product/productThunks";
+import { fetchShopProductsThunk } from "../features/shop/shopThunks";
 
-// import ShopSidebar from "../components/shop/ShopSidebar";
-// import ShopHeader from "../components/shop/ShopHeader";
-// import ProductGrid from "../components/shop/ProductGrid";
-// import ProductSkeleton from "../components/shop/ProductSkeleton";
-// import EmptyProducts from "../components/shop/EmptyProducts";
+import ShopFilters from "../components/shop/ShopFilters";
+import ShopToolbar from "../components/shop/ShopToolbar";
+import ProductGrid from "../components/shop/ProductGrid";
 
-// const ShopPage = () => {
-//   const dispatch = useDispatch();
-//   const [searchParams] = useSearchParams();
+const ShopPage = () => {
+  const dispatch = useDispatch();
 
-//   const { shopProducts, loading } = useSelector(
-//     (state) => state.product
-//   );
-// console.log(shopProducts)
-//   useEffect(() => {
-//     dispatch(
-//       fetchShopProducts({
-//         category: searchParams.get("category"),
-//         minPrice: searchParams.get("minPrice"),
-//         maxPrice: searchParams.get("maxPrice"),
-//         sort: searchParams.get("sort"),
-//       })
-//     );
-//   }, [dispatch, searchParams]);
+  const { products, loading, error, filters } = useSelector(
+    (state) => state.shop
+  );
 
-//   return (
-//     <div className="max-w-7xl mx-auto px-4 py-8">
-//       <div className="grid lg:grid-cols-4 gap-8">
-//         <ShopSidebar />
+  useEffect(() => {
+    dispatch(fetchShopProductsThunk(filters));
+  }, [dispatch, filters]);
 
-//         <div className="lg:col-span-3">
-//           <ShopHeader count={shopProducts.length} />
+  return (
+    <section className="container mx-auto px-4 py-10">
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Shop</h1>
+        <p className="mt-2 text-gray-500">
+          Discover our latest collection.
+        </p>
+      </div>
 
-//           {loading ? (
-//             <ProductSkeleton />
-//           ) : shopProducts.length === 0 ? (
-//             <EmptyProducts />
-//           ) : (
-//             <ProductGrid products={shopProducts} />
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+      {/* Filters */}
+      <ShopFilters />
 
-// export default ShopPage;
+      {/* Toolbar */}
+      <ShopToolbar />
+
+      {/* Error */}
+      {error && (
+        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
+          {error}
+        </div>
+      )}
+
+      {/* Products */}
+      <ProductGrid products={products} loading={loading} />
+    </section>
+  );
+};
+
+export default ShopPage;

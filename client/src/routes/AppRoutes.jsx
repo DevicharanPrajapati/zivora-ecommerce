@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage";
 import ProductPage from "../pages/ProductPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckOutPage";
+import ShopPage from "../pages/ShopPage";
 
 // Category Pages
 import CategoriesPage from "../pages/CatogoriesPage";
@@ -29,7 +30,6 @@ const AppRoutes = () => {
       <Routes>
         {/* ================= Main Layout ================= */}
         <Route element={<MainLayout />}>
-
           {/* Home Page */}
           <Route path="/" element={<HomePage />} />
 
@@ -43,7 +43,8 @@ const AppRoutes = () => {
 
           {/* Shopping Cart */}
           <Route path="/cart" element={<CartPage />} />
-
+          {/* Shop Pages */}
+          <Route path="/shop" element={<ShopPage />} />
           {/* Checkout */}
           <Route path="/checkout" element={<CheckoutPage />} />
 
