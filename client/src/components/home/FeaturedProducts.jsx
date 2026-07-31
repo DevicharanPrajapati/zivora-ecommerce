@@ -1,56 +1,72 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { fetchProductsThunk } from "../../features/product/productThunks";
+import { useSelector } from "react-redux";
 
 import ProductCard from "../common/ProductCard";
 
 const FeaturedProducts = () => {
-  const dispatch = useDispatch();
-
-  const { products, loading, error } = useSelector(
+  const { featuredProducts, loading, error } = useSelector(
     (state) => state.product
   );
 
-  useEffect(() => {
-    dispatch(fetchProductsThunk());
-  }, [dispatch]);
-
   if (loading) {
     return (
-      <div className="py-10 text-center">
-        Loading products...
-      </div>
+      <section className="py-10">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold">
+            Featured Products
+          </h2>
+          <p className="mt-2 text-gray-500">
+            Hand-picked products just for you.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+          {[...Array(8)].map((_, index) => (
+            <div
+              key={index}
+              className="h-80 animate-pulse rounded-xl bg-gray-200"
+            />
+          ))}
+        </div>
+      </section>
     );
   }
 
   if (error) {
     return (
-      <div className="py-10 text-center text-red-500">
-        {error}
-      </div>
+      <section className="py-10 text-center">
+        <p className="text-red-500">{error}</p>
+      </section>
     );
   }
 
-  if (products.length === 0) {
+  if (featuredProducts.length === 0) {
     return (
-      <div className="py-10 text-center">
-        No products found.
-      </div>
+      <section className="py-10 text-center">
+        <h2 className="text-3xl font-bold">
+          Featured Products
+        </h2>
+        <p className="mt-4 text-gray-500">
+          No featured products available.
+        </p>
+      </section>
     );
   }
 
   return (
     <section className="py-10">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold">Featured Products</h2>
-        <p className="mt-2 text-gray-500">
-          Explore our newest arrivals.
-        </p>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h2 className="text-3xl font-bold">
+            Featured Products
+          </h2>
+          <p className="mt-2 text-gray-500">
+            Hand-picked products just for you.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {products.slice(0, 4).map((product) => (
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+        {featuredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
